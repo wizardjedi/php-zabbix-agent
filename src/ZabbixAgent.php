@@ -20,19 +20,63 @@ class ZabbixAgent {
     }
 
     function __construct($host, $port) {
+        if (empty($host)) {
+            throw new ZabbixAgentException("You must set host");
+        }
+
+        if (empty($port)) {
+            throw new ZabbixAgentException("You must set port");
+        }
+
         $this->port = $port;
         $this->host = $host;
     }
 
     public function start() {
         $this->listenSocket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
+        if ($this->listenSocket === false) {
+            $errorCode = socket_last_error();
 
-        socket_set_option($this->listenSocket, SOL_SOCKET, SO_REUSEADDR, 1);
-        socket_bind($this->listenSocket, $this->host, $this->port);
+            $errorMsg = socket_strerror($errorCode);
 
-        socket_listen($this->listenSocket, 0);
+            throw new ZabbixAgentException('Create socket error. '.$errorMsg, $errorCode);
+        }
 
-        socket_set_nonblock($this->listenSocket);
+        $result = socket_set_option($this->listenSocket, SOL_SOCKET, SO_REUSEADDR, 1);
+        if ($result === false) {
+            $errorCode = socket_last_error();
+
+            $errorMsg = socket_strerror($errorCode);
+
+            throw new ZabbixAgentException('Set socket option error.'.$errorMsg, $errorCode);
+        }
+
+        $result = socket_bind($this->listenSocket, $this->host, $this->port);
+        if ($result === false) {
+            $errorCode = socket_last_error();
+
+            $errorMsg = socket_strerror($errorCode);
+
+            throw new ZabbixAgentException('Socket bind error.'.$errorMsg, $errorCode);
+        }
+
+        $result = socket_listen($this->listenSocket, 0);
+        if ($result === false) {
+            $errorCode = socket_last_error();
+
+            $errorMsg = socket_strerror($errorCode);
+
+            throw new ZabbixAgentException('Socket listen error.'.$errorMsg, $errorCode);
+        }
+
+        $result = socket_set_nonblock($this->listenSocket);
+        if ($result === false) {
+            $errorCode = socket_last_error();
+
+            $errorMsg = socket_strerror($errorCode);
+
+            throw new ZabbixAgentException('Socket set nonblocking error.'.$errorMsg, $errorCode);
+        }
     }
 
     public function tick() {
@@ -41,15 +85,30 @@ class ZabbixAgent {
         if ($connection > 0) {
             $commandRaw = socket_read($connection, 1024);
 
-            $command = trim($commandRaw);
+            if ($commandRaw !== false) {
+                $command = trim($commandRaw);
 
-            $agentItem = $this->getItem($command);
+                try {
+                    $agentItem = $this->getItem($command);
 
-            $buf = ZabbixProtocol::serialize($agentItem);
+                    $buf = ZabbixProtocol::serialize($agentItem);
+                } catch (Exception $e) {
+                    socket_close($connection);
 
-            socket_write($connection, $buf, strlen($buf));
+                    throw new ZabbixAgentException("Serialize item error.", 0, $e);
+                }
 
-            socket_close($connection);
+                $result = socket_write($connection, $buf, strlen($buf));
+                if ($result === false) {
+                    $errorCode = socket_last_error();
+
+                    $errorMsg = socket_strerror($errorCode);
+
+                    throw new ZabbixAgentException('Socket write error.'.$errorMsg, $errorCode);
+                }
+
+                socket_close($connection);
+            }
         }
     }
 
