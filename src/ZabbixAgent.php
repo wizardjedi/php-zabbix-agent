@@ -118,6 +118,10 @@ class ZabbixAgent {
      * @return ZabbixItem
      */
     public function getItem($key) {
+        if (!isset($this->items[$key])) {
+            return new ZabbixNotSupportedItem("Key ${key} not registered");
+        }
+
         return $this->items[$key];
     }
 
