@@ -5,7 +5,7 @@ class ZabbixAvgRate implements ZabbixItem {
     protected $count;
 
     public static function now() {
-        return new ZabbixTimeDuration(time());
+        return new ZabbixAvgRate(time());
     }
 
     function __construct($time) {
