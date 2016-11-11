@@ -2,7 +2,7 @@
 
 Zabbix Agent implemented in PHP for long living php-servers
 
-1. Create `composer.json` file
+# 1. Create `composer.json` file
 
 ```
 {
@@ -20,19 +20,19 @@ Zabbix Agent implemented in PHP for long living php-servers
 }
 ```
 
-2. Update composer deps
+# 2. Update composer deps
 
 ```
 $ composer update
 ```
 
-3. Add `autoload.php` to your app
+# 3. Add `autoload.php` to your app
 
 ```php
 include("vendor/autoload.php");
 ```
 
-4. Simple script
+# 4. Simple script
 
 ```php
 <?php
@@ -53,3 +53,11 @@ while (true) {
     usleep(500000);
 }
 ```
+
+# 5. Main classes
+
+ * `ZabbixPrimitiveItem` - holds primitive values like int, string, float. Return `var_export()`'ed string for object or array
+ * `ZabbixTimeDuration` - holds duration from moment in past to current time.
+   * Use `acceptIfNewer($timeValue)` to move moment near in past
+ * `ZabbixAvgRate` - calculats rate of processing
+   * Use `acquire($count)` method to inform item of processed objects count.
