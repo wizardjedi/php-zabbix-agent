@@ -11,6 +11,12 @@ class ZabbixTimeDuration implements ZabbixItem {
         $this->time = $time;
     }
 
+    function acceptIfNewer($timeValue) {
+        if ($this->time < $timeValue) {
+            $this->time = $timeValue;
+        }
+    }
+
     function getTime() {
         return $this->time;
     }
