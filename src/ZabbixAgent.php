@@ -1,24 +1,49 @@
 <?php
 
+/**
+ * Class of zabbix agent server
+ */
 class ZabbixAgent {
+    /**
+     * Items on this agent
+     * @var array 
+     */
     protected $items;
 
+    /**
+     * Listen socket itself
+     * @var resource 
+     */
     protected $listenSocket;
 
+    /**
+     * Default port for zabbix agent
+     * @var int 
+     */
     protected $port = 10050;
 
+    /**
+     * Host for server listen socket
+     * @var string 
+     */
     protected $host = "0.0.0.0";
 
     /**
-     *
-     * @param type $port
-     * @param type $host
+     * Create zabbix agent object
+     * @param int $port
+     * @param string $host
      * @return \ZabbixAgent
      */
     public static function create($port, $host = "0.0.0.0") {
         return new ZabbixAgent($host, $port);
     }
 
+    /**
+     * Create zabbix agent object
+     * @param string $host
+     * @param int $port
+     * @throws ZabbixAgentException
+     */
     function __construct($host, $port) {
         if (empty($host)) {
             throw new ZabbixAgentException("You must set host");
@@ -32,6 +57,11 @@ class ZabbixAgent {
         $this->host = $host;
     }
 
+    /**
+     * Start listen socket.
+     * @throws ZabbixAgentException
+     * @return ZabbixAgent
+     */
     public function start() {
         $this->listenSocket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
         if ($this->listenSocket === false) {
@@ -77,10 +107,29 @@ class ZabbixAgent {
 
             throw new ZabbixAgentException('Socket set nonblocking error.'.$errorMsg, $errorCode);
         }
+        
+        return $this;
     }
 
+    /**
+     * Method implements unit of work for server.
+     * @throws ZabbixAgentException
+     * @return ZabbixAgent
+     */
     public function tick() {
-        $connection = @socket_accept($this->listenSocket);
+        try {
+            $connection = @socket_accept($this->listenSocket);
+        } catch (Exception $e) {
+            /*
+             * Some implementations could transform php-errors to exceptions
+             */
+            
+            $errorCode = socket_last_error();
+
+            $errorMsg = socket_strerror($errorCode);
+
+            throw new ZabbixAgentException('Socket error on accept.'.$errorMsg, $errorCode);
+        }
 
         if ($connection > 0) {
             $commandRaw = socket_read($connection, 1024);
@@ -110,11 +159,13 @@ class ZabbixAgent {
                 socket_close($connection);
             }
         }
+        
+        return $this;
     }
 
     /**
-     *
-     * @param type $key
+     * Get item from agent item storage
+     * @param string $key
      * @return ZabbixItem
      */
     public function getItem($key) {
@@ -126,9 +177,9 @@ class ZabbixAgent {
     }
 
     /**
-     *
-     * @param type $key
-     * @param type $val
+     * Set item to agent storage
+     * @param string $key
+     * @param ZabbixItem $val
      */
     public function setItem($key, $val) {
         $this->items[$key] = $val;
