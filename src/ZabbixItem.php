@@ -1,5 +1,6 @@
 <?php
 
-interface ZabbixItem {
+interface ZabbixItem
+{
     public function toValue();
 }

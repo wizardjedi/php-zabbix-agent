@@ -1,10 +1,10 @@
-# php-zabbix-agent
+## php-zabbix-agent
 
 Zabbix Agent implemented in PHP for long living php-servers
 
-# 1. Create `composer.json` file
+## 1. Create `composer.json` file
 
-```
+```json
 {
    "require" : {
         "a1s/php-zabbix-agent" : "dev-master"
@@ -20,19 +20,19 @@ Zabbix Agent implemented in PHP for long living php-servers
 }
 ```
 
-# 2. Update composer deps
+## 2. Update composer deps
 
 ```
 $ composer update
 ```
 
-# 3. Add `autoload.php` to your app
+## 3. Add `autoload.php` to your app
 
 ```php
 include("vendor/autoload.php");
 ```
 
-# 4. Simple script
+## 4. Simple script
 
 ```php
 <?php
@@ -54,7 +54,7 @@ while (true) {
 }
 ```
 
-# 5. Main classes
+## 5. Main classes
 
  * `ZabbixPrimitiveItem` - holds primitive values like int, string, float. Return `var_export()`'ed string for object or array
  * `ZabbixTimeDuration` - holds duration from moment in past to current time.

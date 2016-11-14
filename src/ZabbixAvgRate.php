@@ -1,23 +1,28 @@
 <?php
 
-class ZabbixAvgRate implements ZabbixItem {
+class ZabbixAvgRate implements ZabbixItem
+{
     protected $time;
     protected $count;
 
-    public static function now() {
-        return new ZabbixAvgRate(time());
-    }
-
-    function __construct($time) {
+    function __construct($time)
+    {
         $this->time = $time;
         $this->count = 0;
     }
 
-    public function acquire($cnt = 1) {
+    public static function now()
+    {
+        return new ZabbixAvgRate(time());
+    }
+
+    public function acquire($cnt = 1)
+    {
         $this->count += $cnt;
     }
 
-    public function toValue() {
+    public function toValue()
+    {
         $curTime = time();
 
         if ($this->time == $curTime) {
