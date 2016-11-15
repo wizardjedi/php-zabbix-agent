@@ -4,7 +4,8 @@
  * Zabbix protocol implementation
  * @see https://www.zabbix.com/documentation/3.4/ru/manual/appendix/items/activepassive
  */
-final class ZabbixProtocol {
+final class ZabbixProtocol
+{
     /**
      * Zabbix protocol magic constant
      */
@@ -19,8 +20,9 @@ final class ZabbixProtocol {
      * Construct <HEADER>
      * @return string
      */
-    public static function getHeader() {
-        return self::ZABBIX_MAGIC.pack("C", self::ZABBIX_DELIMETER);
+    public static function getHeader()
+    {
+        return self::ZABBIX_MAGIC . pack("C", self::ZABBIX_DELIMETER);
     }
 
     /**
@@ -28,7 +30,8 @@ final class ZabbixProtocol {
      * @param mixed $value
      * @return string
      */
-    public static function getLength($value){
+    public static function getLength($value)
+    {
         $len = strlen($value);
 
         $lo = (int)$len & 0x00000000FFFFFFFF;
@@ -40,12 +43,13 @@ final class ZabbixProtocol {
 
     /**
      * Serialize item to zabbix answer format
-     * @param ZabbixItem $item
+     * @param InterfaceZabbixItem $item
      * @return string
      */
-    public static function serialize(ZabbixItem $item) {
+    public static function serialize(InterfaceZabbixItem $item)
+    {
         $value = $item->toValue();
 
-        return self::getHeader().self::getLength($value).$value;
+        return self::getHeader() . self::getLength($value) . $value;
     }
 }
