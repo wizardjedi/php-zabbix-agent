@@ -12,7 +12,7 @@ class ZabbixAvgRate implements InterfaceZabbixItem, InterfaceZabbixItemTime
 
     public static function now()
     {
-        return new ZabbixAvgRate(time());
+        return new self(time());
     }
 
     public function acquire($cnt = 1)

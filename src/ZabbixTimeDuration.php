@@ -18,7 +18,7 @@ class ZabbixTimeDuration implements InterfaceZabbixItem, InterfaceZabbixItemTime
 
     public static function now()
     {
-        return new ZabbixTimeDuration(time());
+        return new self(time());
     }
 
     public function getTime()
