@@ -3,12 +3,11 @@
 class ZabbixAvgRate implements ZabbixItem
 {
     protected $time;
-    protected $count;
+    protected $count = 0;
 
     function __construct($time)
     {
         $this->time = $time;
-        $this->count = 0;
     }
 
     public static function now()
@@ -36,7 +35,5 @@ class ZabbixAvgRate implements ZabbixItem
 
             return (string)($cnt / $timeDiff);
         }
-
-        return (string)(time() - $this->time);
     }
 }
