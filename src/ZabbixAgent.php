@@ -9,7 +9,7 @@ class ZabbixAgent
      * Items on this agent
      * @var array
      */
-    protected $items = [];
+    protected $items = array();
 
     /**
      * Listen socket itself
@@ -122,7 +122,6 @@ class ZabbixAgent
 
                 try {
                     $agentItem = $this->getItem($command);
-
                     $buf = ZabbixProtocol::serialize($agentItem);
                 } catch (Exception $e) {
                     socket_close($connection);
@@ -130,11 +129,12 @@ class ZabbixAgent
                 }
 
                 $result = socket_write($connection, $buf, strlen($buf));
+                socket_close($connection);
                 if ($result === false) {
                     throw new ZabbixAgentSocketException('Socket write error.');
                 }
-
-                socket_close($connection);
+            } else {
+                throw new ZabbixAgentSocketException('Socket read error.');
             }
         }
 
