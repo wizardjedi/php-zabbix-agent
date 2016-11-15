@@ -1,6 +1,6 @@
 <?php
 
-class ZabbixAvgRate implements ZabbixItem
+class ZabbixAvgRate implements InterfaceZabbixItem, InterfaceZabbixItemTime
 {
     protected $time;
     protected $count = 0;
@@ -24,16 +24,26 @@ class ZabbixAvgRate implements ZabbixItem
     {
         $curTime = time();
 
-        if ($this->time == $curTime) {
+        if ($this->getTime() == $curTime) {
             return (string)$this->count;
         } else {
-            $timeDiff = time() - $this->time;
+            $timeDiff = time() - $this->getTime();
             $cnt = $this->count;
 
             $this->count = 0;
-            $this->time = $curTime;
+            $this->setTime($curTime);
 
             return (string)($cnt / $timeDiff);
         }
+    }
+
+    public function getTime()
+    {
+        return $this->time;
+    }
+
+    public function setTime($time)
+    {
+        $this->time = $time;
     }
 }

@@ -144,7 +144,7 @@ class ZabbixAgent
     /**
      * Get item from agent item storage
      * @param string $key
-     * @return ZabbixItem
+     * @return InterfaceZabbixItem
      */
     public function getItem($key)
     {
@@ -158,7 +158,7 @@ class ZabbixAgent
     /**
      * Set item to agent storage
      * @param string $key
-     * @param ZabbixItem $val
+     * @param InterfaceZabbixItem $val
      */
     public function setItem($key, $val)
     {

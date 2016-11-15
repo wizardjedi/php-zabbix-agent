@@ -1,6 +1,6 @@
 <?php
 
-class ZabbixTimeDuration implements ZabbixItem
+class ZabbixTimeDuration implements InterfaceZabbixItem, InterfaceZabbixItemTime
 {
     protected $time;
 
@@ -9,30 +9,32 @@ class ZabbixTimeDuration implements ZabbixItem
         $this->time = $time;
     }
 
+    public function acceptIfNewer($timeValue)
+    {
+        if ($this->getTime() < $timeValue) {
+            $this->setTime($timeValue);
+        }
+    }
+
     public static function now()
     {
         return new ZabbixTimeDuration(time());
     }
 
-    function acceptIfNewer($timeValue)
-    {
-        if ($this->time < $timeValue) {
-            $this->time = $timeValue;
-        }
-    }
-
-    function getTime()
+    public function getTime()
     {
         return $this->time;
     }
 
-    function setTime($time)
+
+
+    public function setTime($time)
     {
         $this->time = $time;
     }
 
     public function toValue()
     {
-        return (string)(time() - $this->time);
+        return (string)(time() - $this->getTime());
     }
 }

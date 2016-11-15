@@ -1,6 +1,6 @@
 <?php
 
-class ZabbixPrimitiveItem implements ZabbixItem
+class ZabbixPrimitiveItem implements InterfaceZabbixItem
 {
     protected $item;
 

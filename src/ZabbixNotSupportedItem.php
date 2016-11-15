@@ -1,6 +1,6 @@
 <?php
 
-class ZabbixNotSupportedItem implements ZabbixItem
+class ZabbixNotSupportedItem implements InterfaceZabbixItem, InterfaceZabbixItemCreatable
 {
     const ZABBIX_NOT_SUPPORTED = "ZBX_NOTSUPPORTED";
 
@@ -11,7 +11,7 @@ class ZabbixNotSupportedItem implements ZabbixItem
         $this->message = $message;
     }
 
-    public function create($message)
+    public static function create($message)
     {
         return new ZabbixNotSupportedItem($message);
     }

@@ -43,10 +43,10 @@ final class ZabbixProtocol
 
     /**
      * Serialize item to zabbix answer format
-     * @param ZabbixItem $item
+     * @param InterfaceZabbixItem $item
      * @return string
      */
-    public static function serialize(ZabbixItem $item)
+    public static function serialize(InterfaceZabbixItem $item)
     {
         $value = $item->toValue();
 
