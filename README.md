@@ -1,7 +1,5 @@
 ## php-zabbix-agent ![Build badge image](https://travis-ci.org/wizardjedi/php-zabbix-agent.svg?branch=master)
 
-Check build status on Travis CI project page: https://travis-ci.org/wizardjedi/php-zabbix-agent
-
 Zabbix Agent implemented in PHP for long living php-servers
 
 ## 1. Create `composer.json` file
@@ -63,3 +61,7 @@ while (true) {
    * Use `acceptIfNewer($timeValue)` to move moment near in past
  * `ZabbixAvgRate` - calculats rate of processing
    * Use `acquire($count)` method to inform item of processed objects count.
+
+## 6. CI project page
+
+Checkout project build status on: https://travis-ci.org/wizardjedi/php-zabbix-agent
