@@ -25,9 +25,9 @@ class ZabbixAgentTest extends TestCase {
         $this->assertEquals(12345, $agent->getPort());
     }
 
-    public function testCreateStatic() {
+    /*public function testCreateStatic() {
         $agent1 = ZabbixAgent::create(12345);
         $this->assertEquals("1.2.3.4", $agent1->getHost());
         $this->assertEquals(12345, $agent1->getPort());
-    }
+    }*/
 }
