@@ -1,0 +1,5 @@
+# Ignore files
+nbproject
+composer.lock
+vendor
+#coverage/*

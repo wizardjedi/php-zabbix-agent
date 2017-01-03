@@ -26,8 +26,6 @@ class ZabbixTimeDuration implements InterfaceZabbixItem, InterfaceZabbixItemTime
         return $this->time;
     }
 
-
-
     public function setTime($time)
     {
         $this->time = $time;

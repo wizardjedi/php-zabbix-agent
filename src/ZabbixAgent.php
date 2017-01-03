@@ -72,23 +72,23 @@ class ZabbixAgent
             throw new ZabbixAgentSocketException('Create socket error.');
         }
 
-        $result = socket_set_option($this->listenSocket, SOL_SOCKET, SO_REUSEADDR, 1);
-        if ($result === false) {
+        $setOptionResult = socket_set_option($this->listenSocket, SOL_SOCKET, SO_REUSEADDR, 1);
+        if ($setOptionResult === false) {
             throw new ZabbixAgentSocketException('Set socket option error.');
         }
 
-        $result = socket_bind($this->listenSocket, $this->host, $this->port);
-        if ($result === false) {
+        $bindResult = socket_bind($this->listenSocket, $this->host, $this->port);
+        if ($bindResult === false) {
             throw new ZabbixAgentSocketException('Socket bind error.');
         }
 
-        $result = socket_listen($this->listenSocket, 0);
-        if ($result === false) {
+        $listenResult = socket_listen($this->listenSocket, 0);
+        if ($listenResult === false) {
             throw new ZabbixAgentSocketException('Socket listen error.');
         }
 
-        $result = socket_set_nonblock($this->listenSocket);
-        if ($result === false) {
+        $nonBlockResult = socket_set_nonblock($this->listenSocket);
+        if ($nonBlockResult === false) {
             throw new ZabbixAgentSocketException('Socket set nonblocking error.');
         }
 
@@ -128,9 +128,9 @@ class ZabbixAgent
                     throw new ZabbixAgentException("Serialize item error.", 0, $e);
                 }
 
-                $result = socket_write($connection, $buf, strlen($buf));
+                $writeResult = socket_write($connection, $buf, strlen($buf));
                 socket_close($connection);
-                if ($result === false) {
+                if ($writeResult === false) {
                     throw new ZabbixAgentSocketException('Socket write error.');
                 }
             } else {
@@ -164,4 +164,9 @@ class ZabbixAgent
     {
         $this->items[$key] = $val;
     }
+
+    public function __toString() {
+        return "ZabbixAgent[]";
+    }
+
 }

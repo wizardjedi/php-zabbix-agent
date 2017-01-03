@@ -7,6 +7,6 @@ class ZabbixAgentSocketException extends ZabbixAgentException
         $errorCode = socket_last_error();
         $errorMsg = socket_strerror($errorCode);
 
-        parent::__construct($message . $errorMsg, $errorCode, $previous);
+        parent::__construct($message . $errorMsg, $code, $previous);
     }
 }
