@@ -4,4 +4,7 @@ php:
   - '7.0'
   - '7.1'
 before_script: composer update
-script: vendor/bin/phpunit --coverage-html coverage --whitelist src/ test/*Test.php
+script: vendor/bin/phpunit --coverage-clover=coverage.xml --whitelist src/ test/*Test.php
+
+after_success:
+    - bash <(curl -s https://codecov.io/bash)
