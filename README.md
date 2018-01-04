@@ -1,4 +1,4 @@
-## php-zabbix-agent ![Build badge image](https://travis-ci.org/wizardjedi/php-zabbix-agent.svg?branch=master)
+## php-zabbix-agent ![Build badge image](https://travis-ci.org/wizardjedi/php-zabbix-agent.svg?branch=master) [![codecov](https://codecov.io/gh/wizardjedi/php-zabbix-agent/branch/master/graph/badge.svg)](https://codecov.io/gh/wizardjedi/php-zabbix-agent)
 
 Zabbix Agent implemented in PHP for long living php-servers
 
