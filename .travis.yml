@@ -3,8 +3,14 @@ php:
   - '5.6'
   - '7.0'
   - '7.1'
+addons:
+  sonarcloud:
+    organization: "wizardjedi-github" # the key of the org you chose at step #3
+  
 before_script: composer update
-script: vendor/bin/phpunit --coverage-clover=coverage.xml --whitelist src/ test/*Test.php
+script: 
+  - vendor/bin/phpunit --coverage-clover=coverage.xml --whitelist src/ test/*Test.php
+  - sonar-scanner  
 
 after_success:
     - bash <(curl -s https://codecov.io/bash)
