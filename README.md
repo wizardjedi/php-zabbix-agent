@@ -1,4 +1,4 @@
-## php-zabbix-agent ![Build badge image](https://travis-ci.org/wizardjedi/php-zabbix-agent.svg?branch=master) [![codecov](https://codecov.io/gh/wizardjedi/php-zabbix-agent/branch/master/graph/badge.svg)](https://codecov.io/gh/wizardjedi/php-zabbix-agent)
+## php-zabbix-agent ![Build badge image](https://travis-ci.org/wizardjedi/php-zabbix-agent.svg?branch=master) [![codecov](https://codecov.io/gh/wizardjedi/php-zabbix-agent/branch/master/graph/badge.svg)](https://codecov.io/gh/wizardjedi/php-zabbix-agent) [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=wizardjedi_php-zabbix-agent&metric=alert_status)](https://sonarcloud.io/dashboard?id=wizardjedi_php-zabbix-agent)
 
 Zabbix Agent implemented in PHP for long living php-servers
 
