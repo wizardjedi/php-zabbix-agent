@@ -11,7 +11,7 @@ addons:
   
 before_script: composer update
 script: 
-  - vendor/bin/phpunit --coverage-clover=coverage.xml --whitelist src/ test/*Test.php
+  - vendor/bin/phpunit --coverage-clover=coverage.xml --log-junit=report.xml --whitelist src/ test/*Test.php
   - sonar-scanner  
 
 after_success:
